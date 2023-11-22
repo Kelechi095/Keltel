@@ -13,7 +13,7 @@ body,
     @apply fixed w-full bg-white z-10 shadow-sm;
   }
   .wrapper {
-    @apply max-w-[2500px] mx-auto xl:px-20 md:px-10 sm:px-2
+    @apply max-w-[2500px] mx-auto xl:px-20 md:px-10 px-2
   }
   .inner-nav {
     @apply flex flex-row items-center justify-between gap-3 md:gap-0;
@@ -32,5 +32,17 @@ body,
   }
   .logo_image {
     @apply hidden md:block cursor-pointer;
+  }
+  .your_home {
+    @apply hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer
+  }
+  .toggle_dropdown {
+    @apply p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition
+  }
+  .dropdown {
+    @apply absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm
+  }
+  .menu_item {
+    @apply px-4 py-3 hover:bg-neutral-100 transition font-semibold
   }
 }
