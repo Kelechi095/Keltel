@@ -1,13 +1,18 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { Nunito } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+
+const font = Nunito({
+  subsets: ["latin"]
+})
 
 export const metadata: Metadata = {
   title: 'Keltel',
   description: 'Booking application',
 }
+
 
 export default function RootLayout({
   children,
@@ -16,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={font.className}>{children}</body>
     </html>
   )
 }
