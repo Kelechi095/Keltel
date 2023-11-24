@@ -3,15 +3,15 @@ import { AiOutlineMenu } from "react-icons/ai";
 import ProfileAvatar from "../ProfileAvatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const registerModal = useRegisterModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
-
-  const handleClick = () => {};
 
   return (
     <div className="relative">
@@ -28,8 +28,11 @@ const Dropdown = () => {
         <div className="dropdown">
           <div className="flex flex-col cursor-pointer">
             <>
-              <MenuItem handleClick={handleClick} label="Login" />
-              <MenuItem handleClick={handleClick} label="Sign Up" />
+              <MenuItem label="Login" />
+              <MenuItem
+                label="Sign Up"
+                handleClick={() => registerModal.onOpen()}
+              />
             </>
           </div>
         </div>
