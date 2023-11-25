@@ -1,9 +1,11 @@
-import Image from 'next/image'
+import Image from "next/image";
+import Navbar from "./components/navbar/Navbar";
 
 export default function Home() {
   return (
-    <div className='text-rose-500'>
-      Keltel Booking
-    </div>
-  )
+    <>
+    <Navbar />
+      <div className="text-blue-500">Keltel Booking</div>
+    </>
+  );
 }

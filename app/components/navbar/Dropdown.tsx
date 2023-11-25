@@ -3,15 +3,16 @@ import { AiOutlineMenu } from "react-icons/ai";
 import ProfileAvatar from "../ProfileAvatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
-import useRegisterModal from "@/app/hooks/useRegisterModal";
+import { useRouter } from "next/navigation";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const registerModal = useRegisterModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
+
+  const router = useRouter()
 
   return (
     <div className="relative">
@@ -31,7 +32,7 @@ const Dropdown = () => {
               <MenuItem label="Login" />
               <MenuItem
                 label="Sign Up"
-                handleClick={() => registerModal.onOpen()}
+                handleClick={() => router.push('/register')}
               />
             </>
           </div>
