@@ -29,7 +29,7 @@ const Dropdown = () => {
         <div className="dropdown">
           <div className="flex flex-col cursor-pointer">
             <>
-              <MenuItem label="Login" />
+              <MenuItem label="Login" handleClick={() => router.push('/login')}/>
               <MenuItem
                 label="Sign Up"
                 handleClick={() => router.push('/register')}
