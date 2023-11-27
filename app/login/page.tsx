@@ -23,7 +23,8 @@ const LoginPage = () => {
 
       if (callback?.ok) {
         toast.success("Log in successful");
-       // router.refresh()
+       router.refresh()
+       router.push("/")
       }
 
       if (callback?.error) {
