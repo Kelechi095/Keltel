@@ -4,7 +4,9 @@ import Search from './Search'
 import Image from 'next/image'
 import Dropdown from './Dropdown'
 
+
 export default function Navbar() {
+  
   return (
     <div className='nav'>
         <div className='border-b-[1px] py-4'>

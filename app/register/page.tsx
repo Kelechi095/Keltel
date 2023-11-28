@@ -3,21 +3,25 @@ import axios from "axios";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import NewUser from "../components/NewUser";
+import { signIn } from "next-auth/react";
+import useGetSession from "../hooks/useGetSession";
+
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const {session, status} = useGetSession()
 
   const router = useRouter();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    console.log(data);
     try {
       await axios.post("/api/register", data);
-      router.push("/");
+      toast.success("Registration Successful");
       setIsLoading(false);
+      router.push("/login");
     } catch (err) {
       console.log(err);
       toast.error("Error occured");
@@ -25,7 +29,17 @@ const RegisterPage = () => {
     }
   };
 
-  const onGoogleSubmit = () => {};
+  const onGoogleSubmit = () => {
+    signIn('google')
+  };
+
+  if(status === "loading") {
+    return <h2>Loading...</h2>
+  }
+
+  if (session) {
+    redirect("/");
+  }
 
   return (
     <NewUser

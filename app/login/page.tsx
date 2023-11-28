@@ -1,16 +1,16 @@
 "use client";
-import axios from "axios";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import NewUser from "../components/NewUser";
 import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
+import useGetSession from "../hooks/useGetSession";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const {session, status} = useGetSession()
 
-  const router = useRouter();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(false);
@@ -23,8 +23,6 @@ const LoginPage = () => {
 
       if (callback?.ok) {
         toast.success("Log in successful");
-       router.refresh()
-       router.push("/")
       }
 
       if (callback?.error) {
@@ -36,6 +34,15 @@ const LoginPage = () => {
   const onGoogleSubmit = () => {
     signIn("google");
   };
+
+  if(status === "loading") {
+    return <h2>Loading...</h2>
+  }
+
+  if (session) {
+    redirect("/");
+  }
+
 
   return (
     <NewUser

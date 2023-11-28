@@ -61,6 +61,8 @@ const NewUser = ({
 
   const router = useRouter();
 
+  console.log(isLoading)
+
   return (
     <div className="page">
       <div className="page_content">
@@ -101,7 +103,7 @@ const NewUser = ({
             />
             <hr />
             <Button
-              label={buttonTitle}
+              label={isLoading ? 'Submitting...' : buttonTitle}
               outline={false}
               onClick={handleSubmit(onSubmit)}
             />

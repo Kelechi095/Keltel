@@ -1,9 +1,10 @@
-import Navbar from "./components/navbar/Navbar";
+'use client'
 
 export default function Home() {
+
+
   return (
     <>
-    <Navbar />
       <div className="text-blue-500">Keltel Booking App</div>
     </>
   );

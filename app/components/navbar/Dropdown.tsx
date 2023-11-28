@@ -4,6 +4,8 @@ import ProfileAvatar from "../ProfileAvatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import { useRouter } from "next/navigation";
+import useGetSession from "@/app/hooks/useGetSession";
+import { signOut } from "next-auth/react";
 
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,12 +14,16 @@ const Dropdown = () => {
     setIsOpen((prev) => !prev);
   }, []);
 
-  const router = useRouter()
+  const { session, status } = useGetSession();
+
+  console.log(session)
+
+  const router = useRouter();
 
   return (
     <div className="relative">
       <div className="flex items-center gap-3">
-        <div className="your_home">Your home</div>
+        <div className="your_home">{session?.name}</div>
         <div className="toggle_dropdown" onClick={toggleOpen}>
           <AiOutlineMenu />
           <div className="hidden md:block">
@@ -27,15 +33,27 @@ const Dropdown = () => {
       </div>
       {isOpen && (
         <div className="dropdown">
-          <div className="flex flex-col cursor-pointer">
-            <>
-              <MenuItem label="Login" handleClick={() => router.push('/login')}/>
-              <MenuItem
-                label="Sign Up"
-                handleClick={() => router.push('/register')}
-              />
-            </>
-          </div>
+          {
+            <div className="flex flex-col cursor-pointer">
+              {session && (
+                <MenuItem label="Logout" handleClick={() => signOut()} />
+              )}
+
+              {!session && (
+                <MenuItem
+                  label="Sign Up"
+                  handleClick={() => router.push("/register")}
+                />
+              )}
+
+              {!session && (
+                <MenuItem
+                  label="Login"
+                  handleClick={() => router.push("/login")}
+                />
+              )}
+            </div>
+          }
         </div>
       )}
     </div>

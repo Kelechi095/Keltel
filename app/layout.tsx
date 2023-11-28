@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Modak } from "next/font/google";
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import Navbar from "./components/navbar/Navbar";
-import Modal from "./components/modals/Modal";
-import RegisterModal from "./components/modals/RegisterModal";
 import ToasterProvider from "./providers/ToasterProvider";
+import { NextAuthProvider } from "./providers/authProvider";
 
 const font = Nunito({
   subsets: ["latin"],
@@ -16,7 +14,7 @@ export const metadata: Metadata = {
   description: "Booking application",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -24,8 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <ToasterProvider />
-        {children}
+        <NextAuthProvider>
+          <Navbar />
+
+          <ToasterProvider />
+          {children}
+        </NextAuthProvider>
       </body>
     </html>
   );

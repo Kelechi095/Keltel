@@ -1,20 +1,18 @@
 import bcrypt from "bcrypt";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google"
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "../../../libs/prismadb";
-import nextAuth from "next-auth";
+import prisma from '../../../libs/prismadb'
 
-interface User {
-  email: string;
-  userId: string;
-  username: string;
-}
-
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
 
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -22,7 +20,7 @@ export const authOptions: AuthOptions = {
         password: { label: "password", type: "text" },
       },
 
-      async authorize(credentials) {
+      async authorize(credentials): Promise<any> {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Please enter a valid email");
         }
@@ -54,20 +52,22 @@ export const authOptions: AuthOptions = {
     signIn: "/",
   },
 
-  /* callbacks: {
+  callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.user = user;
+      if (user?.id) {
+        token.id = user.id;
+      }
+      if (user?.name) {
+        token.name = user.name;
       }
       return token;
     },
-
     async session({ session, token }) {
-      session.user.userId = token.user.id;
-      session.user.username = token.user.username;
+      session.id = token.id;
+      session.name = token.name;
       return session;
     },
-  }, */
+  },
 
   secret: process.env.NEXTAUTH_SECRET,
   session: {
@@ -76,5 +76,5 @@ export const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === "development",
 };
 
-const handler = nextAuth(authOptions);
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
